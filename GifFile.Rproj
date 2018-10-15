@@ -1,13 +1,38 @@
-Version: 1.0
+file<-"C:\\Users\\Boura\\AppData\\Local\\Temp\\RtmpmaS5sB\\downloaded_packages"
 
-RestoreWorkspace: Default
-SaveWorkspace: Default
-AlwaysSaveHistory: Default
+#Build Co-Occurance
 
-EnableCodeIndexing: Yes
-UseSpacesForTab: Yes
-NumSpacesForTab: 2
-Encoding: UTF-8
+list.files(file)
+#write.gif( png, "test.gif", col=terrain.colors(256), flip=TRUE, 
+# scale="always", comment="Maunga Whau Volcano")
 
-RnwWeave: Sweave
-LaTeX: pdfLaTeX
+setwd("C:/Users/Boura/OneDrive/Documents/test02")
+
+file<-list.files(getwd())
+list.order(file)
+#dev.off()
+file<-mixedsort(file)
+
+system2("magick convert *.png -delay 3000  test.gif", input=file)
+
+saveGIF(grid::grid.raster(img), movie.name = "test02.gif", interval=.5)
+
+# convert each png file as magick object 
+img<-list()
+  for(y in file){
+    test<-file[y]
+    
+    img <- image_read(test)
+    
+  }
+
+#Save your pptx as an image file
+#Read your images into file
+file<-list.files(getwd()) #Save your images in the working directory.
+img<-lapply(file, function(x) image_read(x)) #read images as magick files 
+img<-do.call(c, unlist(img, recursive=FALSE)) #Unlist your image list
+#Other trick to unlist your list is to use in one step
+#newcomp_animate<-image_animate(image_join(img), fps = 0.5, dispose = "previous")
+img_animate<- image_animate(img, fps=3) #Animate your images
+
+image_write(img_animate, "Illumina.mp4") #Save your GIF file
